@@ -17,5 +17,6 @@ import project.restapichat.global.jpa.BaseEntity;
 public class Member extends BaseEntity {
 
     private String username;
+
     private String password;
 }
