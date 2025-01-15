@@ -6,6 +6,8 @@ import project.restapichat.domain.Member.member.entity.Member;
 import project.restapichat.domain.Member.member.repository.MemberRepository;
 import project.restapichat.global.rsData.RsData;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -17,5 +19,9 @@ public class MemberService {
         Member savedMember = memberRepository.save(member);
 
         return RsData.of("200", "회원가입 성공", savedMember);
+    }
+
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
     }
 }

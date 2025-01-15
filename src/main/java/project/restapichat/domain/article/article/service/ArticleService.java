@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import project.restapichat.domain.Member.member.entity.Member;
 import project.restapichat.domain.article.article.entity.Article;
 import project.restapichat.domain.article.article.repository.ArticleRepository;
+import project.restapichat.domain.article.articleComment.entity.ArticleComment;
 import project.restapichat.global.rsData.RsData;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,5 +41,14 @@ public class ArticleService {
         article.setContent(content);
 
         articleRepository.save(article);
+    }
+
+    @Transactional
+    public void modifyComment(ArticleComment comment, String commentBody) {
+        comment.setBody(commentBody);
+    }
+
+    public List<Article> findAll() {
+        return articleRepository.findAll();
     }
 }

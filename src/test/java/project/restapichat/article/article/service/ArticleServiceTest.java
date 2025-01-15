@@ -4,12 +4,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import project.restapichat.domain.Member.member.entity.Member;
+import project.restapichat.domain.Member.member.service.MemberService;
 import project.restapichat.domain.article.article.entity.Article;
 import project.restapichat.domain.article.article.service.ArticleService;
+import project.restapichat.domain.article.articleComment.entity.ArticleComment;
 import project.restapichat.global.rsData.RsData;
+
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -19,6 +24,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class ArticleServiceTest {
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private MemberService memberService;
 
     @DisplayName("글 쓰기")
     @Test
@@ -55,5 +63,46 @@ public class ArticleServiceTest {
         Article article_ = articleService.findById(1L).get();
 
         assertThat(article_.getTitle()).isEqualTo("수정된 제목");
+    }
+
+    @DisplayName("2번 글에 댓글들을 추가한다.")
+    @Test
+    @Rollback(false)
+    void t5() {
+        Member member1 = memberService.findById(1L).get();
+        Article article2 = articleService.findById(2L).get();
+
+        article2.addComment(member1, "댓글 입니다.");
+    }
+
+    @DisplayName("1번 글의 댓글들을 수정한다.")
+    @Test
+    void t6() {
+        Article article = articleService.findById(2L).get();
+
+        article.getComments().forEach(comment -> {
+            articleService.modifyComment(comment, comment.getBody() + "!!");
+        });
+    }
+
+    @DisplayName("1번 글의 댓글 중 마지막 것을 삭제한다.")
+    @Test
+    void t7() {
+        Article article = articleService.findById(2L).get();
+
+        List<ArticleComment> comments = article.getComments();
+        ArticleComment lastComment = comments.get(comments.size() - 1); // 마지막 요소 가져오기
+
+        article.removeComment(lastComment);
+    }
+
+    @DisplayName("게시물 별 댓글 수 출력")
+    @Test
+    void t8() {
+        List<Article> articles = articleService.findAll();
+        articles.forEach(article -> {
+            System.out.println("게시물 번호: " + article.getId());
+            System.out.println("댓글 수: " + article.getComments().size());
+        });
     }
 }
