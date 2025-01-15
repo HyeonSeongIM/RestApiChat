@@ -9,6 +9,8 @@ import project.restapichat.domain.ChatRoom.entity.ChatRoom;
 import project.restapichat.domain.ChatRoom.service.ChatRoomService;
 import project.restapichat.domain.Member.member.entity.Member;
 import project.restapichat.domain.Member.member.service.MemberService;
+import project.restapichat.domain.article.article.entity.Article;
+import project.restapichat.domain.article.article.service.ArticleService;
 
 import java.util.stream.IntStream;
 
@@ -17,7 +19,11 @@ import java.util.stream.IntStream;
 public class NotProd {
 
     @Bean
-    public ApplicationRunner applicationRunner(ChatRoomService chatRoomService, ChatMessageService chatMessageService, MemberService memberService) {
+    public ApplicationRunner applicationRunner(
+            ChatRoomService chatRoomService,
+            ChatMessageService chatMessageService,
+            MemberService memberService,
+            ArticleService articleService) {
         return args -> {
             ChatRoom chatRoom1 = chatRoomService.create("room");
             ChatRoom chatRoom2 = chatRoomService.create("room2");
@@ -31,6 +37,11 @@ public class NotProd {
             Member member2 = memberService.join("user2", "1234").getData();
             Member member3 = memberService.join("user3", "1234").getData();
 
+            Article article1 = articleService.write(member1.getId(), "제목1", "내용1").getData();
+            Article article2 = articleService.write(member1.getId(), "제목2", "내용2").getData();
+
+            Article article3 = articleService.write(member2.getId(), "제목3", "내용3").getData();
+            Article article4 = articleService.write(member2.getId(), "제목4", "내용4").getData();
         };
     }
 }
