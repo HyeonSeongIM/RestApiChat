@@ -1,27 +1,28 @@
 package project.restapichat.global.rsData;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+
+import static lombok.AccessLevel.PROTECTED;
+
+@AllArgsConstructor(access = PROTECTED)
 @Getter
-@Setter
-@AllArgsConstructor
 public class RsData<T> {
-    private String resultCode;
-    private String msg;
-    private T data;
+    private final String resultCode;
+    private final String msg;
+    private final T data;
+    private final int statusCode;
+
     public static <T> RsData<T> of(String resultCode, String msg, T data) {
-        return new RsData<>(resultCode, msg, data);
+        int statusCode = Integer.parseInt(resultCode);
+
+        return new RsData<>(resultCode, msg, data, statusCode);
     }
-    public static <T> RsData<T> of(String resultCode, String msg) {
-        return of(resultCode, msg, null);
-    }
-    @JsonIgnore
+
     public boolean isSuccess() {
-        return resultCode.startsWith("200");
+        return statusCode >= 200 && statusCode < 400;
     }
-    @JsonIgnore
+
     public boolean isFail() {
         return !isSuccess();
     }
