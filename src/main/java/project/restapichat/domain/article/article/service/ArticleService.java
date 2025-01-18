@@ -1,6 +1,8 @@
 package project.restapichat.domain.article.article.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.restapichat.domain.Member.member.entity.Member;
@@ -50,5 +52,10 @@ public class ArticleService {
 
     public List<Article> findAll() {
         return articleRepository.findAll();
+    }
+
+    public Page<Article> search(List<String> kwTypes, String kw, Pageable pageable) {
+        // 수정 : return articleRepository.findAll(pageable);
+        return articleRepository.search(kwTypes, kw, pageable);
     }
 }

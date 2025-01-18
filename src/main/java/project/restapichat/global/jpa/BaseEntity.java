@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
