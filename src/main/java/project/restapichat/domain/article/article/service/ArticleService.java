@@ -58,4 +58,8 @@ public class ArticleService {
         // 수정 : return articleRepository.findAll(pageable);
         return articleRepository.search(kwTypes, kw, pageable);
     }
+
+    public void delete(Long id) {
+        this.articleRepository.deleteById(id);
+    }
 }

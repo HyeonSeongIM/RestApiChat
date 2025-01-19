@@ -1,5 +1,6 @@
 package project.restapichat.domain.article.article.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -25,14 +26,17 @@ public class Article extends BaseEntity {
 
     private String content;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
     private List<ArticleComment> comments = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude
