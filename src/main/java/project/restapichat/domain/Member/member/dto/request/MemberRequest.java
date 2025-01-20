@@ -1,11 +1,14 @@
 package project.restapichat.domain.Member.member.dto.request;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 
-@Data
-public class MemberRequest {
+@Getter
+public class MemberRequest
+{
     @NotBlank
     private String username;
     @NotBlank
     private String password;
+
 }

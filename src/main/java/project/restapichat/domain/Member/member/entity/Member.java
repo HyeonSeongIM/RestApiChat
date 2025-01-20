@@ -1,6 +1,8 @@
 package project.restapichat.domain.Member.member.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,17 +12,23 @@ import project.restapichat.global.jpa.BaseEntity;
 
 @Entity
 @Getter
-@SuperBuilder
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class Member extends BaseEntity {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     private String username;
 
     private String password;
 
     public static Member of(String username, String password) {
-        return new Member(username, password);
+        return Member.builder()
+                .username(username)
+                .password(password).build();
     }
 }
