@@ -34,9 +34,9 @@ public class NotProd {
 
     @Transactional
     public void work1() {
-        Member member1 = memberService.join("user1", "1234").getData();
-        Member member2 = memberService.join("user2", "1234").getData();
-        Member member3 = memberService.join("user3", "1234").getData();
+        Member member1 = memberService.signUp("user1", "1234");
+        Member member2 = memberService.signUp("user2", "1234");
+        Member member3 = memberService.signUp("user3", "1234");
 
         Article article1 = articleService.write(member1.getId(), "제목1", "내용1").getData();
         Article article2 = articleService.write(member1.getId(), "제목2", "내용2").getData();

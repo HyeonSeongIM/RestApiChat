@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.restapichat.domain.Member.member.entity.Member;
 import project.restapichat.domain.Member.member.repository.MemberRepository;
-import project.restapichat.global.rsData.RsData;
 
 import java.util.Optional;
 
@@ -13,12 +12,12 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public RsData<Member> join(String username, String password){
-        Member member = Member.builder().username(username).password(password).build();
+    public Member signUp(String username, String password){
+        Member member = Member.of(username, password);
 
-        Member savedMember = memberRepository.save(member);
+        memberRepository.save(member);
 
-        return RsData.of("200", "회원가입 성공", savedMember);
+        return member;
     }
 
     public Optional<Member> findById(Long id) {

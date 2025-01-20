@@ -19,4 +19,8 @@ public class Member extends BaseEntity {
     private String username;
 
     private String password;
+
+    public static Member of(String username, String password) {
+        return new Member(username, password);
+    }
 }
